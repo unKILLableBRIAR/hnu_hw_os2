@@ -2,8 +2,27 @@
 
 using namespace std;
 
+//Queue 구현
+typedef struct queue_node {
+	int data;
+	struct queue_node* next;
+}QNode;
+
+int isEmpty_q(QNode* front) {
+	if (front == NULL) return 1;
+	else return 0;
+}
+
+void enqueue(QNode* front, int data_q) {
+	QNode* tmp = new QNode;
+	tmp->data = data_q;
+
+}
+
+//Stack 구현
 typedef struct Node {
 	int data;
+	QNode* Front = NULL;
 	struct Node* next;
 }Node;
 
@@ -34,6 +53,8 @@ int pop(Node** top) {
 		return tmp_int;
 	}
 }
+
+
 
 int main() {
 	Node* top = NULL;
