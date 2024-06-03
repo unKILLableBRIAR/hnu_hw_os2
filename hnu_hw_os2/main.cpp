@@ -8,24 +8,53 @@ typedef struct queue_node {
 	struct queue_node* next;
 }QNode;
 
-int isEmpty_q(QNode* front) {
-	if (front == NULL) return 1;
-	else return 0;
-}
-
-void enqueue(QNode* front, int data_q) {
-	QNode* tmp = new QNode;
-	tmp->data = data_q;
-
-}
-
 //Stack 구현
 typedef struct Node {
-	int data;
-	QNode* Front = NULL;
+	QNode** Front; //enqueue 및 dequeue과정에서 변경을 위해 이중포인터 선언 및 정의
+	QNode** Rear;
 	struct Node* next;
 }Node;
 
+//Queue ADT 구현
+int isEmpty_q(Node* node) {
+	if (*(node->Front) == NULL) return 1;
+	else return 0;
+}
+
+void enqueue(Node* node, int data_q) {
+	QNode* tmp = new QNode;
+	tmp->data = data_q;
+
+	if (isEmpty_q(node)) {
+		*(node->Front) = tmp;
+		*(node->Rear) = tmp;
+	}
+	else {
+		(*(node->Rear))->next = tmp;
+		*(node->Rear) = tmp;
+	}
+}
+
+int dequeue(Node* node) {
+	if (isEmpty_q(node)) {
+		cout << "Queue is empty!\n";
+		return 0;
+	}
+	else {
+		int resert = (*(node->Front))->data;
+		QNode* tmp = *(node->Front);
+		*(node->Front) = (*(node->Front))->next;
+
+		if (isEmpty_q(node)) {
+			*(node->Rear) = NULL;
+		}
+
+		delete(tmp);
+		return resert;
+	}
+}
+
+//Stack ADT구현
 int isEmpty(Node* top) {
 	if (top == NULL) return 1;
 	else return 0;
@@ -58,19 +87,6 @@ int pop(Node** top) {
 
 int main() {
 	Node* top = NULL;
-	for (int i = 0; i < 10; i++) {
-		push(&top, i * 2 + 17);
-	}
 
-	cout << isEmpty(top) << '\n';
 
-	for (int i = 0; i < 10; i++) {
-		cout << pop(&top) << '\n';
-	}
-
-	cout << isEmpty(top) << '\n';
-
-	delete(top);
-
-	return 0;
 }
