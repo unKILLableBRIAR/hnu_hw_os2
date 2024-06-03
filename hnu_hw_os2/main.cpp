@@ -1,3 +1,4 @@
+//2-1의 2)dequeue까지 구현
 #include <iostream>
 
 using namespace std;
@@ -75,7 +76,7 @@ void push(Node** top, QNode** Front_q) {
 	while (tmp_q->next != NULL) {
 		tmp_q = tmp_q->next;
 	}
-	
+
 	Node* tmp = new Node;
 	tmp->Front = Front_q;
 	tmp->Rear = &tmp_q;
@@ -98,7 +99,7 @@ void pop(Node** top) {
 
 int main() {
 	Node* top = NULL;
-	
+
 	QNode* tmp = createQueue(100);
 	push(&top, &tmp);
 	enqueue(top, 200);
