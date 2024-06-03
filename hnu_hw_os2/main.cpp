@@ -16,6 +16,14 @@ typedef struct Node {
 }Node;
 
 //Queue ADT ±¸Çö
+QNode* createQueue(int data) {
+	QNode* tmp = new QNode;
+	tmp->data = data;
+	tmp->next = NULL;
+
+	return tmp;
+}
+
 int isEmpty_q(Node* node) {
 	if (*(node->Front) == NULL) return 1;
 	else return 0;
@@ -24,6 +32,7 @@ int isEmpty_q(Node* node) {
 void enqueue(Node* node, int data_q) {
 	QNode* tmp = new QNode;
 	tmp->data = data_q;
+	tmp->next = NULL;
 
 	if (isEmpty_q(node)) {
 		*(node->Front) = tmp;
@@ -60,26 +69,28 @@ int isEmpty(Node* top) {
 	else return 0;
 }
 
-void push(Node** top, int data) {
+void push(Node** top, QNode** Front_q) {
+	QNode* tmp_q = *Front_q;
+
+	while (tmp_q->next != NULL) {
+		tmp_q = tmp_q->next;
+	}
+	
 	Node* tmp = new Node;
-	tmp->data = data;
+	tmp->Front = Front_q;
+	tmp->Rear = &tmp_q;
 	tmp->next = *top;
 	*top = tmp;
 }
 
-int pop(Node** top) {
-	int tmp_int;
-	Node* tmp = *top;
-
-	if (*top == NULL) {
+void pop(Node** top) {
+	if (isEmpty(*top)) {
 		cout << "Stack is empty.\n";
-		return 0;
 	}
 	else {
-		tmp_int = tmp->data;
-		*top = tmp->next;
-		delete(tmp);
-		return tmp_int;
+		Node* tmp = *top;
+		*top = (*top)->next;
+		delete tmp;
 	}
 }
 
@@ -87,6 +98,31 @@ int pop(Node** top) {
 
 int main() {
 	Node* top = NULL;
+	
+	QNode* tmp = createQueue(100);
+	push(&top, &tmp);
+	enqueue(top, 200);
+	enqueue(top, 300);
+	enqueue(top, 500);
 
+	QNode* tmp_2 = createQueue(200);
+	push(&top, &tmp_2);
+	enqueue(top, 1);
+	enqueue(top, 2);
+	enqueue(top, 3);
+	enqueue(top, 4);
+	enqueue(top, 5);
+	enqueue(top, 6);
 
+	while (!isEmpty_q(top)) {
+		cout << dequeue(top) << '\n';
+	}
+	pop(&top);
+
+	while (!isEmpty_q(top)) {
+		cout << dequeue(top) << '\n';
+	}
+	pop(&top);
+
+	return 0;
 }
